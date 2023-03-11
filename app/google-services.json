@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "873048919188",
+    "project_id": "soccerfantasy-3aa25",
+    "storage_bucket": "soccerfantasy-3aa25.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873048919188:android:99973390a1daee6716f881",
+        "android_client_info": {
+          "package_name": "com.example.soccerfantasy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "873048919188-1f8elu4tl428svd4bv3ob7eqm65mu34e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoujDyjexGv1dfehFOVGu1lJCHub-9Qak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "873048919188-1f8elu4tl428svd4bv3ob7eqm65mu34e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

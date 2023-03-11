@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_height="match_parent"
+    tools:context=".CreateLeagueF">
+
+    <TextView
+        android:text="Create League"
+
+        android:textSize="35sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_marginTop="150dp"
+        android:padding="15sp"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/league_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="220dp"
+        android:hint="League Name"
+        />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/league_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="League Password"
+        android:layout_marginTop="290dp"
+
+        />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/league_player_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Player Count"
+        android:layout_marginTop="350dp"
+
+        />
+
+    <Button
+        android:text="Create League"
+        android:id="@+id/btn_create_league"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="400dp"/>
+    />
+
+
+
+
+</RelativeLayout>
