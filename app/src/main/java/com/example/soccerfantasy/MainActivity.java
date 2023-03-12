@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
 
     FirebaseAuth auth;
-    Button button, createleagueFragment, joinLeagueFragment, draftFragment;
+    //Button button, createleagueFragment, joinLeagueFragment, draftFragment;
     TextView textView;
     FirebaseUser user;
 
@@ -32,62 +32,85 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        //replaceFragment(new MainActivity());
 
-        createleagueFragment = findViewById(R.id.createTeam);
-        joinLeagueFragment = findViewById(R.id.joinLeague);
-        draftFragment = findViewById(R.id.draft_btn);
+        //replaceFragment(new MyAccount());
+
+        //createleagueFragment = findViewById(R.id.createTeam);
+        //joinLeagueFragment = findViewById(R.id.joinLeague);
+        //draftFragment = findViewById(R.id.draft_btn);
+
+
+
 
 
         //login info
         auth = FirebaseAuth.getInstance();
-        button = findViewById(R.id.logout);
-        textView = findViewById(R.id.user_details);
+        //button = findViewById(R.id.logout);
+        //textView = findViewById(R.id.user_details);
         user = auth.getCurrentUser();
 
-        if (user == null){
-            Intent intent = new Intent(getApplicationContext(), Login.class);
-            startActivity(intent);
-            finish();
-        }
-        else {
-            textView.setText(user.getEmail());
-        }
+//        if (user == null){
+//            Intent intent = new Intent(getApplicationContext(), Login.class);
+//            startActivity(intent);
+//            finish();
+//        }
+//        else {
+//            textView.setText(user.getEmail());
+//        }
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), Login.class);
-                startActivity(intent);
-                finish();
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                FirebaseAuth.getInstance().signOut();
+//                Intent intent = new Intent(getApplicationContext(), Login.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
+//
+//        button.setVisibility(View.GONE);
+
+
+//        createleagueFragment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                replaceFragment(new CreateLeagueF());
+//            }
+//        });
+//
+//        joinLeagueFragment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                replaceFragment(new JoinLeague());
+//            }
+//        });
+//
+//        draftFragment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                replaceFragment(new Draft());
+//            }
+//        });
+
+
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+
+            switch (item.getItemId()){
+
+                case R.id.home:
+                    replaceFragment(new CreateLeagueF());
+                    break;
+                case R.id.browse:
+                    replaceFragment(new CreateLeagueF());
+                    break;
+                case R.id.myLeagues:
+                    replaceFragment(new CreateLeagueF());
+                    break;
             }
+
+            return true;
+
         });
-
-        button.setVisibility(View.GONE);
-
-        createleagueFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                replaceFragment(new CreateLeagueF());
-            }
-        });
-
-
-        joinLeagueFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                replaceFragment(new JoinLeague());
-            }
-        });
-
-        draftFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                replaceFragment(new Draft());
-            }
-        });
-
 
 
 
