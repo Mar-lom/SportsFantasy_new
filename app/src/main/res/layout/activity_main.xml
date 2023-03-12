@@ -7,15 +7,21 @@ xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity"
     >
 
-<FrameLayout
-    android:id="@+id/frame_layout"
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-    app:layout_constraintStart_toEndOf="parent"
-    app:layout_constraintEnd_toStartOf="parent">
+    <FrameLayout
+        android:id="@+id/frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <TextView
+            android:id="@id/user_details"
+            android:layout_width="match_parent"
+            android:layout_height="651dp" />
+
+    </FrameLayout>
 
 <com.google.android.material.bottomnavigation.BottomNavigationView
     android:id="@+id/bottomNavigationView"
