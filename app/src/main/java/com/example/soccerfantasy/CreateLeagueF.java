@@ -2,6 +2,7 @@ package com.example.soccerfantasy;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -115,7 +116,10 @@ public class CreateLeagueF extends Fragment {
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
+                                Context context = getContext();
                                 Log.d(TAG, "DocumentSnapshot successfully written!");
+
+                                Toast.makeText(context, "League Created: Visit My League to access settings", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
