@@ -53,6 +53,7 @@ public class Draft extends Fragment {
         //playersArrayList.add(players2);
 
         //request players from db
+
         db.collection("players")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -104,12 +105,11 @@ public class Draft extends Fragment {
 
 
 
+    public void getAllPlayers(){
 
 
 
-
-
-
+    }
 
 
 

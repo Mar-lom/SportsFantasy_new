@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.soccerfantasy.databinding.ActivityMainBinding;
 import com.example.soccerfantasy.myLeague.myLeagueHome;
+import com.example.soccerfantasy.myTeam.myTeamHome;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -73,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
         else {
             textView.setText(user.getEmail());
         }
+
+
+
 
 //        button.setOnClickListener(new View.OnClickListener() {
 //            @Override

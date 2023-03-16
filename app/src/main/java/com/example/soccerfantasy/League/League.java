@@ -2,15 +2,13 @@ package com.example.soccerfantasy.League;
 
 public class League {
 
-
-
     private String leagueName;
 
-    private String admin_id;
+    private String adminId;
 
-    private String password_league;
+    private String password;
 
-    private String player_count;
+    private int playerCount;
 
     // an empty constructor is
     // required when using
@@ -22,12 +20,19 @@ public class League {
     // for all our variables.
 
     public String getAdminId() {
-        return admin_id;
+        return adminId;
     }
+
+    public String getLeagueName() {return leagueName;}
+
+    public String getPassword(){return password;}
+
+    public  int getPlayerCount(){return playerCount;}
+
 
     public void setAdminId(String admin_id) {
 
-        this.admin_id =  admin_id;
+        this.adminId =  admin_id;
     }
 
     public void setLeagueName(String leagueName) {
@@ -35,11 +40,11 @@ public class League {
     }
 
     public void setLeaguePassword(String password_league) {
-        this.password_league = password_league;
+        this.password = password_league;
     }
 
-    public void setPlayerCount(String player_count) {
-        this.player_count = player_count;
+    public void setPlayerCount(int player_count) {
+        this.playerCount = playerCount;
     }
 
 

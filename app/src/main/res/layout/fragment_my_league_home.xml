@@ -8,45 +8,49 @@
     tools:context=".myLeague.myLeagueHome">
 
     <TextView
-        android:id="@+id/myLeagues_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="120dp"
-        android:text="allLeagues"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/myLeagues_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
         android:layout_marginTop="68dp"
+        android:layout_marginBottom="19dp"
         android:text="myLeague"
         android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/list_view_leagues"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/joinLeagueFragment_btn"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="472dp"
-        android:layout_marginEnd="104dp"
+        android:layout_marginTop="20dp"
         android:text="Join League "
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createleagueFragment_btn" />
 
     <Button
         android:id="@+id/createleagueFragment_btn"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="408dp"
-        android:layout_marginEnd="104dp"
+        android:layout_marginBottom="296dp"
         android:text="Create League "
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ListView
+        android:id="@+id/list_view_leagues"
+        android:layout_width="377dp"
+        android:layout_height="205dp"
+        android:layout_marginTop="120dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
