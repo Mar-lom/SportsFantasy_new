@@ -5,21 +5,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.soccerfantasy.League.League;
 import com.example.soccerfantasy.R;
+import com.example.soccerfantasy.Objects.Team;
 
 import java.util.ArrayList;
 
-public class LeagueAdapter extends ArrayAdapter<League> {
-    public LeagueAdapter(@NonNull Context context, ArrayList<League> arrayListLeague) {
-        super(context,0, arrayListLeague);
+public class TeamsInLeagueAdapter extends ArrayAdapter<Team> {
+    public TeamsInLeagueAdapter(@NonNull Context context, ArrayList<Team> arrayListOfTeamsInLeague) {
+        super(context,0, arrayListOfTeamsInLeague);
     }
 
 
@@ -32,17 +31,18 @@ public class LeagueAdapter extends ArrayAdapter<League> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.team_list_row, parent, false);
         }
         //initialize the UI componenets
-        League league = getItem(position);
-        TextView leagueName = convertView.findViewById(R.id.layout_team_name);
+        Team team = getItem(position);
+
+        TextView teamName = convertView.findViewById(R.id.layout_team_name);
 
         //get Data
-        leagueName.setText(league.getLeagueName());
+        teamName.setText(team.getTeamName());
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(getContext(), "Item clicked is : " + league.getLeagueName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Item clicked is : " + team.getTeamName(), Toast.LENGTH_SHORT).show();
             }
         });
 

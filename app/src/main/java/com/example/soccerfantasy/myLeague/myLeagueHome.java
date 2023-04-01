@@ -2,65 +2,62 @@ package com.example.soccerfantasy.myLeague;
 
 import static android.content.ContentValues.TAG;
 
-import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TableLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.soccerfantasy.CreateLeagueF;
-import com.example.soccerfantasy.JoinLeague;
-import com.example.soccerfantasy.League.League;
-import com.example.soccerfantasy.League.Players;
-import com.example.soccerfantasy.Login;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.example.soccerfantasy.Draft.Draft;
+import com.example.soccerfantasy.Objects.Players;
 import com.example.soccerfantasy.R;
-import com.example.soccerfantasy.adapter.PlayerAdapter;
-import com.example.soccerfantasy.databinding.ActivityMainBinding;
-import com.example.soccerfantasy.myTeam.Team;
+import com.example.soccerfantasy.Objects.Team;
+import com.example.soccerfantasy.myLeague.LeagueSettings.LeagueSettings;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 
 public class myLeagueHome extends Fragment implements View.OnClickListener {
     View view;
     TextView userTextView;
-    Button joinLeagueFragment, createleagueFragment;
+    Button joinLeagueFragment, createleagueFragment, manageLeagueFragment;
+
     FirebaseAuth auth;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    ArrayList<League> leagueArrayList;
+
+    ArrayList<Team> listOfTeamInLeague;
 
     ListView leagueLV;
 
+    //refference to league
+    CollectionReference leagueRef = db.collection("league");
+    Query queryForLeagueAdmin;
+
+    //league Admin
+    String leagueAdmin;
+
+    //manager League button
+    Button leagueManageButton;
 
 
     @Override
@@ -72,43 +69,89 @@ public class myLeagueHome extends Fragment implements View.OnClickListener {
 
         joinLeagueFragment = (Button) view.findViewById(R.id.joinLeagueFragment_btn);
         createleagueFragment = (Button) view.findViewById(R.id.createleagueFragment_btn);
+        manageLeagueFragment = (Button) view.findViewById(R.id.manageMyLeagueBtn);
+
         joinLeagueFragment.setOnClickListener(this);
         createleagueFragment.setOnClickListener(this);
+        manageLeagueFragment.setOnClickListener(this);
 
         // user ID and league info
-        userTextView = view.findViewById(R.id.myLeagues_title);
+        userTextView = view.findViewById(R.id.myLeague);
+
         //login info
-        auth = FirebaseAuth.getInstance();
+//        auth = FirebaseAuth.getInstance();
 
-        user = auth.getCurrentUser();
+//        user = auth.getCurrentUser();
+//
+//        if (user == null){
+//            userTextView.setText("Who Are You?");
+//        }
+//        else {
+//            userTextView.setText(user.getEmail());
+//        }
 
-        if (user == null){
-            userTextView.setText("Who Are You?");
-        }
-        else {
-            userTextView.setText(user.getEmail());
-        }
 
 
-        ListView leagueLV = (ListView) view.findViewById(R.id.list_view_leagues);
+        //Query for league Admin Check
+        queryForLeagueAdmin = leagueRef.whereEqualTo("adminId", user.getEmail() );
+        getAdminOfLeague();
 
-        leagueArrayList = new ArrayList<>();
 
-        db.collection("league")
-                .whereEqualTo("league","FirstLeague")
+        leagueAdmin = "Manage League";
+
+        // if league admin == league admin show the button
+
+        leagueManageButton = view.findViewById(R.id.manageMyLeagueBtn);
+        leagueManageButton.setText(leagueAdmin);
+
+
+
+
+        listOfTeamInLeague = new ArrayList<>();
+
+        //get data for spinner
+        String[] leaguesIn = { "FirstLeague", "SecondLeague"};
+        Spinner spinner = (Spinner) view.findViewById(R.id.spinner_leagues_list);
+
+        //Creating the ArrayAdapter instance having the country list
+        ArrayAdapter spinnerAdapter = new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item,leaguesIn);
+
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        //Setting the ArrayAdapter data on the Spinner
+        spinner.setAdapter(spinnerAdapter);
+
+
+        db.collection("team")
+                //.whereEqualTo("leagueName", "FirstLeague" )
                 .get()
+
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
+                            for (DocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
+
+                                Team team = document.toObject(Team.class);
+
+                                listOfTeamInLeague.add(team);
+
+                                ListView leagueLV = (ListView) view.findViewById(R.id.list_view_leagues);
+
+                                TeamsInLeagueAdapter adapter = new TeamsInLeagueAdapter(getContext(), listOfTeamInLeague);
+
+                                leagueLV.setAdapter(adapter);
+
                             }
-                        } else {
+
+                        } else
+                        {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
+
 
 
         return view;
@@ -120,7 +163,7 @@ public class myLeagueHome extends Fragment implements View.OnClickListener {
         Fragment fragment = null;
         switch (view.getId()) {
             case R.id.joinLeagueFragment_btn:
-                fragment = new JoinLeague();
+                fragment = new Draft();
                 replaceFragment(fragment);
                 break;
 
@@ -128,8 +171,13 @@ public class myLeagueHome extends Fragment implements View.OnClickListener {
                 fragment = new CreateLeagueF();
                 replaceFragment(fragment);
                 break;
-        }
 
+            case R.id.manageMyLeagueBtn:
+                fragment = new LeagueSettings();
+                replaceFragment(fragment);
+                break;
+
+        }
     }
 
     public void replaceFragment(Fragment someFragment) {
@@ -140,18 +188,46 @@ public class myLeagueHome extends Fragment implements View.OnClickListener {
     }
 
 
-}
+
+    public void getSpinnerData(){
+
+    }
 
 
-//if (!queryDocumentSnapshots.isEmpty()){
-//
-//        List<DocumentSnapshot> leagueList = queryDocumentSnapshots.getDocuments();
-//
-//        for (DocumentSnapshot d : leagueList ){
-//        League league = d.toObject(League.class);
-//        leagueArrayList.add(league);
-//        }
-//
-//        LeagueAdapter adapter = new LeagueAdapter(getContext(), leagueArrayList);
-//
-//        leagueLV.setAdapter(adapter);
+    public void getAdminOfLeague(){
+
+        queryForLeagueAdmin.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                //Log.d(TAG, document.getId() + " => " + document.getData());
+
+                                leagueAdmin = document.getData().get("adminId").toString();
+
+                                if (leagueAdmin.equals(user.getEmail())){
+                                    leagueManageButton.setVisibility(View.VISIBLE);
+                                }   else {
+                                    leagueManageButton.setVisibility(View.INVISIBLE);
+                                }
+
+                                //leagueManageButton.setText(leagueAdmin);
+
+                                Log.d(TAG, "=>" + leagueAdmin);
+
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+
+                    }
+                });
+    };
+
+    }
+
+
+
+
+

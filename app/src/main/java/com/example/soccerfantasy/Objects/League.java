@@ -1,4 +1,4 @@
-package com.example.soccerfantasy.League;
+package com.example.soccerfantasy.Objects;
 
 public class League {
 
@@ -10,6 +10,11 @@ public class League {
 
     private int playerCount;
 
+    private boolean draftDate;
+
+    private boolean draftStatus;
+
+
     // an empty constructor is
     // required when using
     // Firebase Realtime Database.
@@ -18,6 +23,15 @@ public class League {
     }
     // created getter and setter methods
     // for all our variables.
+
+
+    public boolean getDraftDate(){return draftDate;};
+
+    public boolean getDraftStatus(){return draftStatus;};
+
+    public void setDraftDate(boolean draftDate){this.draftDate = draftDate;};
+
+    public void setDraftStatus(boolean draftStatus){this.draftStatus = draftStatus;};
 
     public String getAdminId() {
         return adminId;

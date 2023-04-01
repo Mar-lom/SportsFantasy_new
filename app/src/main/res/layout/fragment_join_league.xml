@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".JoinLeague">
+    tools:context=".myLeague.JoinLeague">
 
     <TextView
         android:id="@+id/textView"

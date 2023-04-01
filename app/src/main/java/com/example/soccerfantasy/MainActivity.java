@@ -6,10 +6,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
+import com.example.soccerfantasy.Login.Login;
 import com.example.soccerfantasy.databinding.ActivityMainBinding;
 import com.example.soccerfantasy.myLeague.myLeagueHome;
 import com.example.soccerfantasy.myTeam.myTeamHome;
@@ -26,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
     FirebaseUser user;
 
+    Context context;
+
+    SharedPreferences sharedpreferences;
     @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new myLeagueHome());
                     break;
                 case R.id.myTeam:
-                    replaceFragment(new Draft());
+                    replaceFragment(new myTeamHome());
                     break;
             }
 
@@ -60,10 +67,17 @@ public class MainActivity extends AppCompatActivity {
         //draftFragment = findViewById(R.id.draft_btn);
 
 
+        sharedpreferences = getSharedPreferences("UserAccountId", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+
+
         //login info
         auth = FirebaseAuth.getInstance();
         //button = findViewById(R.id.logout);
         textView = findViewById(R.id.user_details);
+
+         // local storage
+
         user = auth.getCurrentUser();
 
         if (user == null){
@@ -73,10 +87,11 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             textView.setText(user.getEmail());
+            String accountName = user.getEmail();
+            editor.putString("UserAccountId", user.getEmail());
+            editor.commit();
+
         }
-
-
-
 
 //        button.setOnClickListener(new View.OnClickListener() {
 //            @Override
