@@ -43,17 +43,18 @@
         android:id="@+id/list_view_leagues"
         android:layout_width="367dp"
         android:layout_height="191dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="52dp"
         android:layout_marginEnd="20dp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner_leagues_list" />
 
     <Spinner
         android:id="@+id/spinner_leagues_list"
-        android:layout_width="336dp"
+        android:layout_width="370dp"
         android:layout_height="43dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="36dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/myLeague" />
 
@@ -65,6 +66,7 @@
         android:layout_marginTop="16dp"
         android:text="Manager Settings"
         android:textSize="16sp"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/list_view_leagues" />
 
@@ -73,15 +75,35 @@
         android:layout_width="195dp"
         android:layout_height="51dp"
         android:layout_marginStart="108dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="32dp"
         android:backgroundTint="#009688"
+        android:onClick="GenerateMatchup"
         android:text="Manager My League"
         android:textColorHighlight="#9C27B0"
         android:textColorLink="#9C27B0"
         android:visibility="visible"
-        android:onClick="GenerateMatchup"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewManagerOnly" />
+
+    <TextView
+        android:id="@+id/teamNameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:text="Team Name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_leagues_list" />
+
+    <TextView
+        android:id="@+id/teamPointsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="16dp"
+        android:text="Points"
+        app:layout_constraintStart_toEndOf="@+id/teamNameLabel"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_leagues_list" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

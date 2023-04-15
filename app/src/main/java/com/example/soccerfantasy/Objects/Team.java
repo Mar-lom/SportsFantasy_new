@@ -8,6 +8,8 @@ public class Team {
 
     public String userId;
 
+    private String points;
+
     public Team(){
 
     }
@@ -45,5 +47,8 @@ public class Team {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    public String getPoints(){ return points; }
+
 }
 

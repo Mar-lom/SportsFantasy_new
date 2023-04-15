@@ -34,6 +34,7 @@ import java.util.List;
 
 public class LeagueSettings extends Fragment {
 
+    //Template not implemented yet.
 
     //firebase Auth
     FirebaseAuth auth;
@@ -60,11 +61,9 @@ public class LeagueSettings extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_league_settings, container, false);
 
-
         //login info
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-
 
         // query for team ref
         queryTeamRef = teamRef.whereEqualTo("leagueName", "FirstLeague");
@@ -72,13 +71,14 @@ public class LeagueSettings extends Fragment {
 
 
         generateMatchups = view.findViewById(R.id.generateMatchBtn);
+        myTeamDraftButton = view.findViewById(R.id.startDraftBtn);
+
 
         generateMatchups.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
                 Log.d("GENERATING", "MATCHUP");
-
-
-                String[] playersInLeague = {"Marco", "John", "Daniel", "Marley"};
+                //String[] playersInLeague = {"Marco", "John", "Daniel", "Marley"};
 
                 //add each
 
@@ -88,25 +88,25 @@ public class LeagueSettings extends Fragment {
 
                // Collections.shuffle(Matchups);
 
-
-
                // Log.d("The Log Order" , String.valueOf(Matchups));
 
             }
         });
 
 
+        myTeamDraftButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Log.d("DRAFT", "HAS STARTED");
+                // on click make the draft button visable on the teampage
+                //myTeamDraftButton.setVisibility(view.VISIBLE);
+
+            }
+        });
+
 
 
         return view;
-    }
-
-    public void StartDraft(View view){
-
-        myTeamDraftButton.setVisibility(view.VISIBLE);
-
-
-
     }
 
 

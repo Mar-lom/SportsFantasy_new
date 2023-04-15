@@ -2,6 +2,8 @@ package com.example.soccerfantasy.myLeague;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,23 +43,20 @@ public class myLeagueHome extends Fragment implements View.OnClickListener {
     TextView userTextView;
     Button joinLeagueFragment, createleagueFragment, manageLeagueFragment;
 
+    //Authentication
     FirebaseAuth auth;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    ArrayList<Team> listOfTeamInLeague;
+    ArrayList<Team> listOfTeamInLeague; //Store list of teams in the entire League
+    ListView leagueLV; // list view
 
-    ListView leagueLV;
-
-    //refference to league
-    CollectionReference leagueRef = db.collection("league");
+    CollectionReference leagueRef = db.collection("league"); // ref the league
     Query queryForLeagueAdmin;
 
-    //league Admin
-    String leagueAdmin;
+    String leagueAdmin; //store league Admin
 
-    //manager League button
-    Button leagueManageButton;
+    Button leagueManageButton; //manager League button
 
 
     @Override
@@ -79,83 +78,82 @@ public class myLeagueHome extends Fragment implements View.OnClickListener {
         userTextView = view.findViewById(R.id.myLeague);
 
         //login info
-//        auth = FirebaseAuth.getInstance();
+       auth = FirebaseAuth.getInstance();
 
-//        user = auth.getCurrentUser();
-//
-//        if (user == null){
-//            userTextView.setText("Who Are You?");
-//        }
-//        else {
-//            userTextView.setText(user.getEmail());
-//        }
+        user = auth.getCurrentUser();
 
-
+        if (user == null){
+            userTextView.setText("Who Are You?");
+        }
+        else {
+            userTextView.setText(user.getEmail());
+        }
 
         //Query for league Admin Check
+        //if this isnt the admin then the manage league button wont show!
         queryForLeagueAdmin = leagueRef.whereEqualTo("adminId", user.getEmail() );
         getAdminOfLeague();
 
 
-        leagueAdmin = "Manage League";
-
+        leagueAdmin = "Manage League";// button text
         // if league admin == league admin show the button
 
         leagueManageButton = view.findViewById(R.id.manageMyLeagueBtn);
         leagueManageButton.setText(leagueAdmin);
+        leagueManageButton.setVisibility(View.INVISIBLE);
+
+        listOfTeamInLeague = new ArrayList<>(); //list that stores the teams in the league -- the databse call stores it here.
 
 
+        //FOR DEMO ONLY
+        String[] leaguesIn = {"The A League"}; //get data for spinner
+        //FOR DEMO ONLY
+
+        Spinner spinner = (Spinner) view.findViewById(R.id.spinner_leagues_list); // the spinner display
 
 
-        listOfTeamInLeague = new ArrayList<>();
-
-        //get data for spinner
-        String[] leaguesIn = { "FirstLeague", "SecondLeague"};
-        Spinner spinner = (Spinner) view.findViewById(R.id.spinner_leagues_list);
-
-        //Creating the ArrayAdapter instance having the country list
+        //Creating the ArrayAdapter instance -- this code is for future use, need to implement database functionality.
         ArrayAdapter spinnerAdapter = new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item,leaguesIn);
-
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        //Setting the ArrayAdapter data on the Spinner
-        spinner.setAdapter(spinnerAdapter);
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("joinedLeague", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        //FOR DEMO SETUP// ///
+        //editor.putBoolean("joinedLeague", false);
+        //editor.commit();
 
 
-        db.collection("team")
-                //.whereEqualTo("leagueName", "FirstLeague" )
-                .get()
+        if (preferences.getBoolean("joinedLeague",false)) {
 
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
+            Log.d(TAG, "JoinedLeague?: ");
 
-                                Team team = document.toObject(Team.class);
-
-                                listOfTeamInLeague.add(team);
-
-                                ListView leagueLV = (ListView) view.findViewById(R.id.list_view_leagues);
-
-                                TeamsInLeagueAdapter adapter = new TeamsInLeagueAdapter(getContext(), listOfTeamInLeague);
-
-                                leagueLV.setAdapter(adapter);
-
+            db.collection("team")
+                    //.whereEqualTo("leagueName", "FirstLeague" )
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (DocumentSnapshot document : task.getResult()) {
+                                    //Setting the ArrayAdapter data on the Spinner //MOVED FOR DEMO ONLY
+                                    spinner.setAdapter(spinnerAdapter);
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                    Team team = document.toObject(Team.class);
+                                    listOfTeamInLeague.add(team);
+                                    leagueLV = (ListView) view.findViewById(R.id.list_view_leagues);
+                                    leagueLV.setVisibility(View.VISIBLE);
+                                    TeamsInLeagueAdapter adapter = new TeamsInLeagueAdapter(getContext(), listOfTeamInLeague);
+                                    leagueLV.setAdapter(adapter);
+                                }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
                             }
-
-                        } else
-                        {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-                    }
-                });
+                    });
 
-
-
+        }
         return view;
-
     }
 
     @Override
@@ -163,7 +161,11 @@ public class myLeagueHome extends Fragment implements View.OnClickListener {
         Fragment fragment = null;
         switch (view.getId()) {
             case R.id.joinLeagueFragment_btn:
-                fragment = new Draft();
+                //for demo porposes only
+                //add the league to the spinner
+                //make league table visable
+
+                fragment = new JoinLeague();
                 replaceFragment(fragment);
                 break;
 
@@ -180,6 +182,20 @@ public class myLeagueHome extends Fragment implements View.OnClickListener {
         }
     }
 
+    public void onResume() {
+        super.onResume();
+        Log.d("OnResume","onResume");
+
+    }
+
+    public void onPause() {
+        super.onPause();
+        Log.d("OnPause","onPause");
+
+    }
+
+
+
     public void replaceFragment(Fragment someFragment) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_layout, someFragment);
@@ -187,13 +203,11 @@ public class myLeagueHome extends Fragment implements View.OnClickListener {
         transaction.commit();
     }
 
-
-
     public void getSpinnerData(){
 
     }
 
-
+// if this user is the admin of the league then the button will appear.
     public void getAdminOfLeague(){
 
         queryForLeagueAdmin.get()

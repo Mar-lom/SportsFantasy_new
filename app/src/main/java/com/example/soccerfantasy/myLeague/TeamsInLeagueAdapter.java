@@ -14,6 +14,8 @@ import androidx.annotation.Nullable;
 import com.example.soccerfantasy.R;
 import com.example.soccerfantasy.Objects.Team;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class TeamsInLeagueAdapter extends ArrayAdapter<Team> {
@@ -34,9 +36,12 @@ public class TeamsInLeagueAdapter extends ArrayAdapter<Team> {
         Team team = getItem(position);
 
         TextView teamName = convertView.findViewById(R.id.layout_team_name);
+        TextView points = convertView.findViewById(R.id.pointsId);
 
         //get Data
         teamName.setText(team.getTeamName());
+
+        points.setText(team.getPoints());
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

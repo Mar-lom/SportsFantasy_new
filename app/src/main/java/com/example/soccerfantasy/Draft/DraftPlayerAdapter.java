@@ -81,7 +81,7 @@ public class DraftPlayerAdapter extends ArrayAdapter<Players> {
         TextView playerDraftStatus = convertView.findViewById(R.id.playersAvailablity);
 
         //Setting data.
-        playerName.setText(player.getName());
+        playerName.setText(player.getFirst_name());
         playerPosition.setText(player.getPosition());
 
         playerDraftStatus.setText(true ? "Available" : "Taken"); // check
@@ -91,16 +91,19 @@ public class DraftPlayerAdapter extends ArrayAdapter<Players> {
             @Override
             public void onClick(View view) {
 
-                //Toast.makeText(getContext(), "Player Choosen  is : " + player.getName() + " " + player.getPlayerId() + "Picked"  , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "The Player You have chosen is: " + player.getFirst_name() , Toast.LENGTH_SHORT).show();
+
 
                 //add player to team roster;
                 draftedPlayer = new HashMap<>();
-                draftedPlayer.put("teamName", currentTeamName);
+                draftedPlayer.put("teamName", "Marleys Team"); // for demo change to Marley// change back
                 draftedPlayer.put("id", player.getPlayerId());
 
                 CallTeamRoster();
 
                 //make them disapear on click
+
+
 
 
                 //Players playerDrafted = new Players(player.getPlayerId(), player.getName(),player.getPoints(),player.getPosition());

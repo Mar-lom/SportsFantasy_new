@@ -35,11 +35,8 @@ import java.util.ArrayList;
 public class Draft extends Fragment {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
     FirebaseAuth auth;
-
     FirebaseUser user;
-
 
 
     //get the refference and query to the teamRoster
@@ -63,7 +60,6 @@ public class Draft extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_draft, container, false);
 
-
         //get user data
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -76,7 +72,6 @@ public class Draft extends Fragment {
         //get Id to display player name
         textView = view.findViewById(R.id.teamNameUpNext);
 
-
         //List for the players
         playersArrayList = new ArrayList<>();
 
@@ -84,12 +79,9 @@ public class Draft extends Fragment {
         playerListView = view.findViewById(R.id.list_view_player_draft);
 
         //current team
-
         String currentUserTeam;
 
-
         getPlayersInDraft();
-
         //get player list info
 
 

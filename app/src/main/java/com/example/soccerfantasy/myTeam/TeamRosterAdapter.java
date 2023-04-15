@@ -41,18 +41,17 @@ public class TeamRosterAdapter extends ArrayAdapter<Players> {
 
             TextView tvPlayerName = (TextView) convertView.findViewById(R.id.playerName);
 
-
-            //TextView tvPlayerPoints = (TextView) convertView.findViewById(R.id.playerPoints);
+            TextView tvPlayerPoints = (TextView) convertView.findViewById(R.id.playerPoints);
 
             //Button tvSwapPlayer = (Button) convertView.findViewById(R.id.changePlayer_btn); // come back
 
             // Populate the data into the template view using the data object
 
-            tvPlayerName.setText(player.getName());
+            tvPlayerName.setText(player.getFirst_name());
 
             tvPlayerPosition.setText(player.getPosition());
 
-            //tvPlayerPoints.setText(String.valueOf(player.getPoints()));
+            tvPlayerPoints.setText(String.valueOf(player.getPoints()));
 
 
 

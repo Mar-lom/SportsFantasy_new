@@ -2,6 +2,8 @@ package com.example.soccerfantasy.myTeam;
 
 import static android.content.ContentValues.TAG;
 
+import static java.lang.Integer.parseInt;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,19 +35,20 @@ public class TeamRoster extends Fragment {
     View view;
 
     FirebaseAuth auth;
+
     FirebaseUser user;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     //get the refference and query to the teamRoster
     CollectionReference teamRosterRef = db.collection("teamRoster");
-    Query query = teamRosterRef.whereEqualTo("teamName", "Marcos Team" );
+    Query query = teamRosterRef.whereEqualTo("teamName", "Marleys Team" );
 
     //get refference to players table
     CollectionReference players = db.collection("players");
 
     //store players Ids from the roster.
-    ArrayList<String> playerIdsFromRoster;
+    ArrayList<Players> playerIdsFromRoster;
 
     //store players from the entire league;
     ArrayList<Players> playersInLeague;
@@ -53,7 +56,6 @@ public class TeamRoster extends Fragment {
     // Construct the data source
     ArrayList<Players> arrayOfPlayersStarting;
     TeamRosterAdapter adapter;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,45 +72,49 @@ public class TeamRoster extends Fragment {
         // Construct the data source
         arrayOfPlayersStarting = new ArrayList<>();
 
-
-        getPlayersFromRoster();
-
         getPlayersFromLeague();
-
 
         return view;
 
     }
 
+//adds the players to array list
 
     public void print() {
 
+        for (Players PR : playerIdsFromRoster) {
 
-        for (String i : playerIdsFromRoster) {
+            int playersOnRosterID = parseInt(PR.getPlayerId());
 
-            //int k = Integer.parseInt(i);
+                for (Players PL : playersInLeague){
 
-            for (int j = 0; j < playersInLeague.size(); j++) {
-                // System.out.println();
-                if (playersInLeague.get(j).getPlayerId() == i) {
+                    int playersOnLeagueID = parseInt(PL.getPlayerId());
 
-                    //arrayOfPlayersStarting.add(new Players("12","Marissa",0, "0"));
+                    //Log.d(TAG, playersOnRosterID + " Is on Your team");
 
-                    arrayOfPlayersStarting.add(new Players(playersInLeague.get(j).getPlayerId(), playersInLeague.get(j).getName(),0, playersInLeague.get(j).getPosition()));
+                    //Log.d(TAG, playersOnLeagueID + " Is in your league");
 
-                    Log.d(TAG, playersInLeague.get(j).getPlayerId() + " PLAYER IS ON YOUR ROSTER ");
+                            if (playersOnRosterID == playersOnLeagueID){
 
-                    Log.d(TAG, "PLAYER IDS ON ROSTERasd " + i);
+                                Log.d(TAG, playersOnRosterID + " Is on Your team");
 
-                }
+                                arrayOfPlayersStarting.add(new Players(PL.getPlayerId(), PL.getFirst_name(), PL.getPoints(), PL.getPosition()));
 
-            }
-
+                            }
+                 }
 
         }
+
+        loadPlayersToList();
     }
 
 
+
+
+
+
+
+    //gets all the players from the player table.
 public void getPlayersFromRoster(){
 
     query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -119,22 +125,21 @@ public void getPlayersFromRoster(){
 
                     Players player =  document.toObject(Players.class);
 
-                    playerIdsFromRoster.add(player.getPlayerId());
+                    playerIdsFromRoster.add(player);
 
-                    for (String i : playerIdsFromRoster) {
+                    for (Players i : playerIdsFromRoster) {
 
-                        Log.d(TAG, "Player Id = " + i);
-
+                        //Log.d(TAG, "Player Id = " + i.getPlayerId());
                     }
 
                 }
+
+                print();
 
             } else
             {
                 Log.d(TAG, "Error getting documents: ", task.getException());
             }
-
-
 
         }
 
@@ -151,22 +156,21 @@ public void getPlayersFromLeague(){
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
 
-
                         for (QueryDocumentSnapshot document : task.getResult()) {
 
                             Players players = document.toObject(Players.class);
 
                             playersInLeague.add(players);
-
-                            Log.d(TAG, players.first_name_new);
-
+                            //Log.d(TAG, players.getFirst_name() + " " + players.getPlayerId());
                         }
-                        print();
 
-                        loadPlayersToList();
+                        getPlayersFromRoster();
+
+                        //loadPlayersToList();
 
                     } else {
-                        //.d(TAG, "Error getting documents: ", task.getException());
+
+                        Log.d(TAG, "Error getting documents: ", task.getException());
                     }
                 }
             });
@@ -176,16 +180,13 @@ public void getPlayersFromLeague(){
 
     public void loadPlayersToList(){
 
-
-
         //arrayOfPlayersStarting.add(new Players("12","Marissa",0, "0"));
-
-
 
         // Create the adapter to convert the array to views
         adapter = new TeamRosterAdapter(getContext(), arrayOfPlayersStarting);
 
         // Attach the adapter to a ListView
+
         ListView listView = (ListView) view.findViewById(R.id.list_view_teams_starters);
 
         listView.setAdapter(adapter);

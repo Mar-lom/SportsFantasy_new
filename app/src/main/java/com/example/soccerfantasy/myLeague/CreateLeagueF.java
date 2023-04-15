@@ -59,7 +59,6 @@ public class CreateLeagueF extends Fragment {
 
         //leagueNameEdit = view.findViewById(R.id.league_name);
 
-
         sendToDb = view.findViewById(R.id.btn_create_league);
 
 
@@ -86,17 +85,12 @@ public class CreateLeagueF extends Fragment {
                     }
                 }
 
-
+                //create a League
 
                 String leagueName = leagueNameEdit.getText().toString();
                 String password = passwordEdit.getText().toString();
                 String count = playerCountEdit.getText().toString();
 
-                //league.setLeagueName(leagueName);
-                //league.setLeaguePassword(password);
-                //league.setPlayerCount(count);
-
-                //saveToDatabase(leagueName,password,count,id);
 
                 Map<String, Object> leagues = new HashMap<>();
                 leagues.put("league_name", leagueName);
