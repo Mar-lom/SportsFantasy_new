@@ -19,7 +19,8 @@ xmlns:tools="http://schemas.android.com/tools"
         <TextView
             android:id="@id/user_details"
             android:layout_width="match_parent"
-            android:layout_height="651dp" />
+            android:layout_height="651dp"
+            android:visibility="invisible" />
 
     </FrameLayout>
 

@@ -18,7 +18,6 @@ public class HomeScreen extends Fragment {
 
 
     View view;
-
     TextView userTextView;
 
     @Override
@@ -29,9 +28,9 @@ public class HomeScreen extends Fragment {
 
 
         userTextView = view.findViewById(R.id.user_details);
+
         //login info
         FirebaseAuth auth = FirebaseAuth.getInstance();
-
         FirebaseUser user = auth.getCurrentUser();
 
         if (user == null) {
@@ -39,7 +38,6 @@ public class HomeScreen extends Fragment {
         } else {
             userTextView.setText(user.getEmail());
         }
-
 
         return view;
     }

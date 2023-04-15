@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".JoinLeague">
+    tools:context=".myLeague.JoinLeague">
 
     <TextView
         android:id="@+id/textView"
@@ -45,12 +45,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/league_password2"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="300dp"
+
+        android:hint="Team Name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/btn_join_league"
         android:layout_width="262dp"
         android:layout_height="46dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="340dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="368dp"
         android:text="Join League"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

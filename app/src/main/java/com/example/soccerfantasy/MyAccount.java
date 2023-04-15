@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 public class MyAccount extends Fragment {
 
+//able to leave games and various other settings.
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

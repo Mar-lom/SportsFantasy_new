@@ -30,4 +30,12 @@
     <string name="home">Home</string>
     <string name="myleague">MyLeague</string>
     <string name="myteam">MyTeam</string>
+    <string name="my_teams">My Teams</string>
+    <string name="join_league">Join League</string>
+    <string name="create_league">Create League</string>
+    <string name="available">Available</string>
+    <string name="position">Position</string>
+    <string name="player_name">Player Name</string>
+    <string name="generate_league_matchups">Generate League Matchups</string>
+    <string name="start_draft">Start Draft</string>
 </resources>
